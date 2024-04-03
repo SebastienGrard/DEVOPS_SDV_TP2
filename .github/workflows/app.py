@@ -18,4 +18,4 @@ def info():
 user_agent = request.headers.get('User-Agent')
 	return "Your user agent is: {user_agent}"
 if __name__ == "__main__":
-app.run(debug=True)
+app.run(debug=True, host='0.0.0.0', port='5000')
