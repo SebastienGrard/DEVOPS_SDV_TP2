@@ -2,6 +2,7 @@ from flask import Flask, request
 
 app = Flask(__name__)
 
+
 @app.route('/')
 def home():
     return "Welcome to v2 the Flask CI/CD Demo"
