@@ -42,6 +42,17 @@ jobs:
             release.zip
             !venv/
 
+  jobs:
+    - job: test
+      steps:
+      - task: DotNetCoreCLI@2
+        inputs:
+          command: 'test'
+          projects: 'sebastiengrard-pipeline.csproj'
+          publishTestResults: true
+          arguments: '--configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura'
+
+
   deploy:
     runs-on: ubuntu-latest
     needs: build
