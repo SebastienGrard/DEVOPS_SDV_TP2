@@ -42,15 +42,27 @@ jobs:
             release.zip
             !venv/
 
-  jobs:
-    - job: test
-      steps:
-      - task: DotNetCoreCLI@2
-        inputs:
-          command: 'test'
-          projects: 'sebastiengrard-pipeline.csproj'
-          publishTestResults: true
-          arguments: '--configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura'
+ jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: test
+        uses: actions/checkout@v2
+
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '3.1.x' # Spécifiez la version de .NET Core que vous utilisez dans votre projet
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build project
+        run: dotnet build --configuration $(buildConfiguration)
+
+      - name: Test project
+        run: dotnet test --configuration $(buildConfiguration) --collect "Code coverage"
 
 
   deploy:
